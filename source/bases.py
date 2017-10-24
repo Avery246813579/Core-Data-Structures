@@ -8,6 +8,7 @@ import string
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 # string.ascii_letters is ascii_lowercase + ascii_uppercase
 # string.printable is digits + ascii_letters + punctuation + whitespace
+import math
 
 
 def decode(digits, base):
@@ -17,15 +18,29 @@ def decode(digits, base):
     return: int -- integer representation of number (in base 10)"""
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
-    # TODO: Decode digits from binary (base 2)
-    # ...
-    # TODO: Decode digits from hexadecimal (base 16)
-    # ...
-    # TODO: Decode digits from any base (2 up to 36)
-    # ...
+
+    base10 = 0
+    for i in range(len(digits)):
+        base10 += _get_ascii_index(digits[i]) * math.pow(base, len(digits) - i - 1)
+
+    return base10
 
 
-def encode(number, base):
+dal = string.digits + string.ascii_lowercase
+dau = string.digits + string.ascii_uppercase
+dalu = string.digits + string.ascii_letters
+
+
+def _get_ascii_index(digit):
+    for i in range(len(dalu)):
+        if digit == dalu[i]:
+            if i > 35:
+                return i - 26
+
+            return i
+
+
+def encode(number, base, uppercase=False):
     """Encode given number in base 10 to digits in given base.
     number: int -- integer representation of number (in base 10)
     base: int -- base to convert to
@@ -34,12 +49,37 @@ def encode(number, base):
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
-    # TODO: Encode number in binary (base 2)
-    # ...
-    # TODO: Encode number in hexadecimal (base 16)
-    # ...
-    # TODO: Encode number in any base (2 up to 36)
-    # ...
+
+    i = 0
+    max_value = 0
+    final = ''
+
+    while max_value < number:
+        max_value = math.pow(base, i)
+
+        i += 1
+
+    i -= 2
+
+    for i in range(i, -1, -1):
+        power = math.pow(base, i)
+        if number - power > -1:
+            left_over = int(power % number)
+
+            if left_over < 1:
+                taking = int(number)
+            else:
+                taking = int(number / left_over)
+
+            number -= taking * power
+            final += dal[taking]
+        else:
+            final += '0'
+
+    if number > 0:
+        return str(number)
+
+    return final
 
 
 def convert(digits, base1, base2):
@@ -51,14 +91,7 @@ def convert(digits, base1, base2):
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base1 <= 36, 'base1 is out of range: {}'.format(base1)
     assert 2 <= base2 <= 36, 'base2 is out of range: {}'.format(base2)
-    # TODO: Convert digits from base 2 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 2 to base 10 (and vice versa)
-    # ...
-    # TODO: Convert digits from base 10 to base 16 (and vice versa)
-    # ...
-    # TODO: Convert digits from any base to any base (2 up to 36)
-    # ...
+    return
 
 
 def main():
@@ -78,4 +111,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    ...

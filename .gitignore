@@ -132,3 +132,11 @@ venv.bak/
 .mypy_cache/
 
 # End of https://www.gitignore.io/api/macos,python
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
