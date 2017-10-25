@@ -21,65 +21,68 @@ def decode(digits, base):
 
     base10 = 0
     for i in range(len(digits)):
-        base10 += _get_ascii_index(digits[i]) * math.pow(base, len(digits) - i - 1)
+        base10 += string.printable.index(digits[i].lower()) * math.pow(base, len(digits) - i - 1)
 
-    return base10
-
-
-dal = string.digits + string.ascii_lowercase
-dau = string.digits + string.ascii_uppercase
-dalu = string.digits + string.ascii_letters
-
-
-def _get_ascii_index(digit):
-    for i in range(len(dalu)):
-        if digit == dalu[i]:
-            if i > 35:
-                return i - 26
-
-            return i
+    return int(base10)
 
 
 def encode(number, base, uppercase=False):
-    """Encode given number in base 10 to digits in given base.
-    number: int -- integer representation of number (in base 10)
-    base: int -- base to convert to
-    return: str -- string representation of number (in given base)"""
+    """ Encode given number in base 10 to digits in given base.
+
+        worst: O(n)
+        best: O(1)?
+
+        number: int -- integer representation of number (in base 10)
+        base: int -- base to convert to
+        return: str -- string representation of number (in given base)
+    """
+
     # Handle up to base 36 [0-9a-z]
     assert 2 <= base <= 36, 'base is out of range: {}'.format(base)
     # Handle unsigned numbers only for now
     assert number >= 0, 'number is negative: {}'.format(number)
 
-    i = 0
     max_value = 0
-    final = ''
+    number_digits = 0
 
-    while max_value < number:
-        max_value = math.pow(base, i)
+    while max_value <= number:
+        max_value = math.pow(base, number_digits)
 
-        i += 1
+        number_digits += 1
 
-    i -= 2
+    # Remove the digit we just added before the check and subtract another because we checked against the max
+    number_digits -= 2
 
-    for i in range(i, -1, -1):
-        power = math.pow(base, i)
-        if number - power > -1:
-            left_over = int(power % number)
+    encoded_solution = ''
+    for i in range(number_digits, -1, -1):
+        # If the rest of the digits are 0, let's just add those then return our solution
+        if number == 0:
+            encoded_solution += '0' * (i + 1)
+
+            return encoded_solution
+
+        # The power of the index. Like b^i
+        index_power = math.pow(base, i)
+
+        # If our number is greater then the value power at the current index, then we want to continue by getting the
+        # character we need and adding it. If our current number is lower then we add a 0.
+        if number - index_power > -1:
+            left_over = int(index_power % number)
 
             if left_over < 1:
-                taking = int(number)
+                division_times = 1
             else:
-                taking = int(number / left_over)
+                division_times = int(number / index_power)
 
-            number -= taking * power
-            final += dal[taking]
+            # Remove the number we are taking away
+            number -= division_times * index_power
+
+            # We can use division times to get the digit we want
+            encoded_solution += string.printable[division_times]
         else:
-            final += '0'
+            encoded_solution += '0'
 
-    if number > 0:
-        return str(dal[number])
-
-    return final
+    return encoded_solution
 
 
 def convert(digits, base1, base2):
