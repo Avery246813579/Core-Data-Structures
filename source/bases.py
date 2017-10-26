@@ -26,11 +26,11 @@ def decode(digits, base):
     return int(base10)
 
 
-def encode(number, base, uppercase=False):
+def encode(number, base):
     """ Encode given number in base 10 to digits in given base.
 
-        worst: O(n)
-        best: O(1)?
+        average: O(n) or 2n
+        best: O(n) or n
 
         number: int -- integer representation of number (in base 10)
         base: int -- base to convert to
@@ -43,18 +43,18 @@ def encode(number, base, uppercase=False):
     assert number >= 0, 'number is negative: {}'.format(number)
 
     max_value = 0
-    number_digits = 0
+    digit_index = 0
 
     while max_value <= number:
-        max_value = math.pow(base, number_digits)
+        max_value = math.pow(base, digit_index)
 
-        number_digits += 1
+        digit_index += 1
 
     # Remove the digit we just added before the check and subtract another because we checked against the max
-    number_digits -= 2
+    digit_index -= 2
 
     encoded_solution = ''
-    for i in range(number_digits, -1, -1):
+    for i in range(digit_index, -1, -1):
         # If the rest of the digits are 0, let's just add those then return our solution
         if number == 0:
             encoded_solution += '0' * (i + 1)
@@ -62,20 +62,20 @@ def encode(number, base, uppercase=False):
             return encoded_solution
 
         # The power of the index. Like b^i
-        index_power = math.pow(base, i)
+        power = math.pow(base, i)
 
         # If our number is greater then the value power at the current index, then we want to continue by getting the
         # character we need and adding it. If our current number is lower then we add a 0.
-        if number - index_power > -1:
-            left_over = int(index_power % number)
+        if number - power > -1:
+            left_over = int(power % number)
 
             if left_over < 1:
                 division_times = 1
             else:
-                division_times = int(number / index_power)
+                division_times = int(number / power)
 
             # Remove the number we are taking away
-            number -= division_times * index_power
+            number -= division_times * power
 
             # We can use division times to get the digit we want
             encoded_solution += string.printable[division_times]
@@ -116,5 +116,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
-    ...
+    main()
