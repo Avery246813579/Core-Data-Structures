@@ -1,6 +1,5 @@
 #!python
 
-
 def linear_search(array, item):
     """return the first index of item in array or None if item is not found"""
     # implement linear_search_iterative and linear_search_recursive below, then
@@ -18,13 +17,10 @@ def linear_search_iterative(array, item):
 
 
 def linear_search_recursive(array, item, index=0):
-    if index > len(array) - 1:
-        return None
-
-    if array[index] == item:
-        return index
-
-    return linear_search_recursive(array, item, index + 1)
+    # TODO: implement linear search recursively here
+    pass
+    # once implemented, change linear_search to call linear_search_recursive
+    # to verify that your recursive implementation passes all tests
 
 
 def binary_search(array, item):
@@ -36,76 +32,14 @@ def binary_search(array, item):
 
 
 def binary_search_iterative(array, item):
-    # We set our left and right margin
-    left = 0
-    right = len(array) - 1
-
-    # We can do a while True because we have a base case
-    while True:
-        # We get the width of the remaining elements between the margins
-        width = right - left
-
-        # If our width is less then 2 then we are at a margin
-        if width < 2:
-            # If we are at the left margin and our item is there, then return the left index
-            if left == 0:
-                if array[left] == item:
-                    return left
-            # If we are at the right margin and our item is there, then return the right index
-            else:
-                if array[right] == item:
-                    return right
-
-            # Return out if it's not our item. We don't have the item in our list
-            return
-
-        # Our new index is our left margin plus the remaining width divided by 2 (we get the middle of the remaining
-        # elements)
-        index = left + width // 2
-
-        # If our current item is the item we are looking for return it back
-        if array[index] == item:
-            return index
-        # If our item is less then our current item then let's move the left margin
-        elif array[index] < item:
-            left = index
-        # If our item is more then our current item then let's move the right margin
-        else:
-            right = index
+    # TODO: implement binary search iteratively here
+    pass
+    # once implemented, change binary_search to call binary_search_iterative
+    # to verify that your iterative implementation passes all tests
 
 
-def binary_search_recursive(array, item, left=0, right=None):
-    # If we don't have a right margin
-    if right is None:
-        right = len(array) - 1
-
-    # Width between our Margins. Our remaining elements in our array.
-    width = right - left
-
-    # If the size of our width is less then 2 then it's either at our left or right margin
-    if width < 2:
-        # If we are at the left margin and it's our item we return our left margin
-        if left == 0:
-            if array[left] == item:
-                return left
-        # If we are at the right margin and it's our item we return our right margin
-        else:
-            if array[right] == item:
-                return right
-
-        # Return out if it's not our item. We don't have the item in our list
-        return
-
-    # Our new index is our left margin plus the remaining width divided by 2 (we get the middle of the remaining
-    # elements)
-    index = left + width // 2
-
-    # If our current item is the item we are looking for return it back
-    if array[index] == item:
-        return index
-    # If our item is less then our current item then let's move the left margin
-    elif array[index] < item:
-        return binary_search_recursive(array, item, index, right)
-    # If our item is more then our current item then let's move the right margin
-    else:
-        return binary_search_recursive(array, item, left, index)
+def binary_search_recursive(array, item, left=None, right=None):
+    # TODO: implement binary search recursively here
+    pass
+    # once implemented, change binary_search to call binary_search_recursive
+    # to verify that your recursive implementation passes all tests
