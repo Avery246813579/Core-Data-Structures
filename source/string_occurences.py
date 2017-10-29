@@ -7,14 +7,32 @@ def in_string(text, pattern):
     :return:            If the pattern is in the string
     """
 
-    pass
+    return in_string_iterative(text, pattern)
+    # return  in_string_recursively(text, pattern)
 
 
 def in_string_iterative(text, pattern):
     """ Checking if a pattern is in a string iteratively """
 
-    pass
+    text_index = 0
+    pattern_index = 0
 
+    text_length = len(text)
+    pattern_length = len(pattern)
+
+    while text_index < text_length:
+        if text[text_index] == pattern[pattern_index]:
+            pattern_index += 1
+        elif pattern_index > 0:
+            pattern_index = 0
+            continue
+
+        if pattern_index + 1 > pattern_length:
+            return True
+
+        text_index += 1
+
+    return False
 
 def in_string_recursively(text, pattern, text_index=0, pattern_index=0):
     """ Checking if a pattern is in a string recursively """
@@ -28,7 +46,10 @@ def index_in_string(text, pattern):
     :param text:        The string we want to check
     :param pattern:     The pattern we want to check
     """
-    pass
+
+    return index_in_string_iterative(text, pattern)
+    # return index_in_string_recursive(text, pattern)
+
 
 
 def index_in_string_iterative(text, pattern):
@@ -46,7 +67,8 @@ def indexes_in_string(text, pattern):
     :param pattern:     The pattern we want to check
     """
 
-    pass
+    return indexes_in_string_iterative(text, pattern)
+    # return indexes_in_string_iterative(text, pattern)
 
 
 def indexes_in_string_iterative(text, pattern):
