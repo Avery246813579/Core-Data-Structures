@@ -30,21 +30,27 @@ def is_palindrome_iterative(text):
     left_index = 0
     right_index = len(text) - 1
 
+    # We keep looping until the characters meet or overlap
     while right_index > left_index:
+        # If it's an ignored character go to the next loop
         if text[left_index] in IGNORE_CHARACTERS:
             left_index += 1
             continue
 
+        # If it's an ignored character go to the next loop
         if text[right_index] in IGNORE_CHARACTERS:
             right_index -= 1
             continue
 
+        # If the two sides don't match then it's not a palindrome
         if text[left_index].lower() != text[right_index].lower():
             return False
 
+        # Increase to do our next step
         left_index += 1
         right_index -= 1
 
+    # If we go through the loop with no returns then it's a palindrome
     return True
 
 
