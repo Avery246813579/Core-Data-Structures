@@ -8,11 +8,15 @@ def in_string(text, pattern):
     """
 
     # return in_string_iterative(text, pattern)
-    return  in_string_recursively(text, pattern)
+    return in_string_recursively(text, pattern)
 
 
 def in_string_iterative(text, pattern):
-    """ Checking if a pattern is in a string iteratively """
+    """ Checking if a pattern is in a string iteratively
+
+    BEST: O(1)
+    WORST: O(n)
+    """
 
     text_index = 0
     pattern_index = 0
@@ -21,7 +25,7 @@ def in_string_iterative(text, pattern):
     pattern_length = len(pattern)
 
     # Loop through our text characters until we reach the end
-    while text_index < text_length:
+    while text_index < text_length:  # O(N)
         # If our current text character is equal to our pattern character increase the index
         if text[text_index] == pattern[pattern_index]:
             pattern_index += 1
@@ -43,7 +47,11 @@ def in_string_iterative(text, pattern):
 
 
 def in_string_recursively(text, pattern, text_index=0, pattern_index=0):
-    """ Checking if a pattern is in a string recursively """
+    """ Checking if a pattern is in a string recursively
+
+    BEST: O(1)
+    WORST: O(n)
+    """
 
     # If our text index is greater then our text then the pattern was not found
     if text_index + 1 > len(text):
@@ -62,7 +70,7 @@ def in_string_recursively(text, pattern, text_index=0, pattern_index=0):
         return True
 
     # Go to the next character in our text string
-    return in_string_recursively(text, pattern, text_index + 1, pattern_index)
+    return in_string_recursively(text, pattern, text_index + 1, pattern_index)  # O(n)
 
 
 def index_in_string(text, pattern):
@@ -77,7 +85,11 @@ def index_in_string(text, pattern):
 
 
 def index_in_string_iterative(text, pattern):
-    """ Gets the index of a pattern in a string iteratively """
+    """ Gets the index of a pattern in a string iteratively
+
+    BEST: O(1)
+    WORST: O(n)
+    """
 
     text_index = 0
     pattern_index = 0
@@ -109,7 +121,11 @@ def index_in_string_iterative(text, pattern):
 
 
 def index_in_string_recursive(text, pattern, text_index=0, pattern_index=0):
-    """ Gets the index of a pattern in a string recursively """
+    """ Gets the index of a pattern in a string recursively
+
+    BEST: O(1)
+    WORST: O(n)
+    """
 
     # If our text index is greater then our text then the pattern was not found and we return back -1
     if text_index + 1 > len(text):
@@ -144,7 +160,10 @@ def indexes_in_string(text, pattern):
 
 
 def indexes_in_string_iterative(text, pattern):
-    """ Gets our indexes of a pattern from a string iteratively"""
+    """ Gets our indexes of a pattern from a string iteratively
+
+    AVERAGE: O(N)
+    """
 
     text_index = 0
     pattern_index = 0
@@ -180,6 +199,11 @@ def indexes_in_string_iterative(text, pattern):
 
 
 def indexes_in_string_recursive(text, pattern, text_index=0, pattern_index=0):
+    """ Finds all the indexes of a pattern in a text using recursion
+
+     AVERAGE: O(n)
+     """
+
     # If our text index is greater then our text then the pattern was not found and we return an empty array to append
     # too
     if text_index + 1 > len(text):
@@ -201,3 +225,28 @@ def indexes_in_string_recursive(text, pattern, text_index=0, pattern_index=0):
     # Go to the next character in our text string
     return indexes_in_string_recursive(text, pattern, text_index + 1, pattern_index)
 
+
+def in_string_used(text, pattern):
+    """ Finds if a pattern is in a string using a function made before
+
+    BEST: O(1)
+    WORST: O(n)
+    """
+
+    return index_in_string(text, pattern) != -1
+
+
+def index_in_string_used(text, pattern):
+    """ Finds index of the pattern in a string
+
+    Less efficient then using own code
+
+    AVERAGE: O(n)
+    """
+
+    indexes = indexes_in_string(text, pattern)
+
+    if len(indexes) == 0:
+        return -1
+
+    return indexes[0]
