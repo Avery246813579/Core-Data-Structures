@@ -20,25 +20,28 @@ IGNORE_CHARACTERS = [' ', ',', '.', '!', '?', '\'', '-']
 
 
 def is_palindrome_dumb(text):
-    text = text.lower().replace(' ', '').replace(',', '').replace('.', '').replace('!', '').replace('?', '',)\
-        .replace('\'', '').replace('-', '')
-
+    text = text.lower().replace(' ', '').replace(',', '').replace('.', '').replace('!', '').replace('?', '',).replace('\'', '').replace('-', '')
     return text == text[::-1]
 
 
 def is_palindrome_iterative(text):
+    """
+
+    BEST: O(nm) or (n / 2) * m
+    WORST: O(nm)  or (n / 2) * 2m
+    """
     left_index = 0
     right_index = len(text) - 1
 
     # We keep looping until the characters meet or overlap
-    while right_index > left_index:
+    while right_index > left_index:  # n (number of characters) / 2 or O(n)
         # If it's an ignored character go to the next loop
-        if text[left_index] in IGNORE_CHARACTERS:
+        if text[left_index] in IGNORE_CHARACTERS:  # m (number of IGNORED_CHARACTERS)
             left_index += 1
             continue
 
         # If it's an ignored character go to the next loop
-        if text[right_index] in IGNORE_CHARACTERS:
+        if text[right_index] in IGNORE_CHARACTERS:  # m (number of IGNORED_CHARACTERS)
             right_index -= 1
             continue
 
@@ -55,6 +58,12 @@ def is_palindrome_iterative(text):
 
 
 def is_palindrome_recursive(text, left_index=0, right_index=None):
+    """
+
+    BEST: O(nm) or (n / 2) * m
+    WORST: O(nm)  or (n / 2) * 2m
+    """
+
     # If our right character is undefined
     if right_index is None:
         right_index = len(text) - 1

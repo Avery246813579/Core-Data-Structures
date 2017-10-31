@@ -31,8 +31,8 @@ def binary_search(array, item):
     """return the index of item in sorted array or None if item is not found"""
     # implement binary_search_iterative and binary_search_recursive below, then
     # change this to call your implementation to verify it passes all tests
-    return binary_search_iterative(array, item)
-    # return binary_search_recursive(array, item)
+    # return binary_search_iterative(array, item)
+    return binary_search_recursive(array, item)
 
 
 def binary_search_iterative(array, item):
@@ -79,33 +79,19 @@ def binary_search_recursive(array, item, left=0, right=None):
     if right is None:
         right = len(array) - 1
 
-    # Width between our Margins. Our remaining elements in our array.
-    width = right - left
-
-    # If the size of our width is less then 2 then it's either at our left or right margin
-    if width < 2:
-        # If we are at the left margin and it's our item we return our left margin
-        if left == 0:
-            if array[left] == item:
-                return left
-        # If we are at the right margin and it's our item we return our right margin
-        else:
-            if array[right] == item:
-                return right
-
-        # Return out if it's not our item. We don't have the item in our list
-        return
-
     # Our new index is our left margin plus the remaining width divided by 2 (we get the middle of the remaining
     # elements)
-    index = left + width // 2
+    index = (left + right) // 2
+
+    if left > right:
+        return None
 
     # If our current item is the item we are looking for return it back
     if array[index] == item:
         return index
     # If our item is less then our current item then let's move the left margin
     elif array[index] < item:
-        return binary_search_recursive(array, item, index, right)
+        return binary_search_recursive(array, item, index + 1, right)
     # If our item is more then our current item then let's move the right margin
     else:
-        return binary_search_recursive(array, item, left, index)
+        return binary_search_recursive(array, item, left, index - 1)
