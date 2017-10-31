@@ -215,3 +215,21 @@ class DoubleyLinkedList(object):
 
         # Take away our heads last
         self.head.last = None
+
+    def _find_node(self, data):
+        current = self.head
+
+        while current is not None:
+            if current.data == data:
+                return current
+
+            current = current.next
+
+
+    def replace(self, old_data, new_data):
+        old_node = self._find_node(old_data)
+
+        if old_data is None:
+            return
+
+        old_node.data = new_data

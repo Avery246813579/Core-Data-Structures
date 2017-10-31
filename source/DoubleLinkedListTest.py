@@ -165,6 +165,19 @@ class LinkedListTest(unittest.TestCase):
         ll.delete('3')
         assert ll._at_index(1).last.data == '4'
 
+    def test_replace(self):
+        ll = DoubleyLinkedList()
+        ll.append('4')
+        ll.append('3')
+        ll.append('2')
+        assert ll.items() == ['4', '3', '2']
+        ll.replace('3', '9')
+        assert ll.items() == ['4', '9', '2']
+        ll.replace('4', '5')
+        assert ll.items() == ['5', '9', '2']
+        ll.replace('2', '1')
+        assert ll.items() == ['5', '9', '1']
+
 
 if __name__ == '__main__':
     unittest.main()

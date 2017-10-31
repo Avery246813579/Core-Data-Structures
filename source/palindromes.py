@@ -3,7 +3,6 @@
 # Hint: use string.ascii_letters (all letters in ASCII character set)
 import string
 
-
 # Hint: Use these string constants to ignore capitalization and/or punctuation
 # string.ascii_lowercase is 'abcdefghijklmnopqrstuvwxyz'
 # string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -12,7 +11,6 @@ import string
 
 def is_palindrome(text):
     """A string of characters is a palindrome if it reads the same forwards and
-<<<<<<< HEAD
     backwards, ignoring punctuation, whitespace, and letter casing"""
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests

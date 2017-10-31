@@ -153,8 +153,18 @@ class LinkedListTest(unittest.TestCase):
         ll.insert(2, '8')
         assert ll.items() == ['2', '4', '8', '3', '9']
 
-
-
+    def test_replace(self):
+        ll = LinkedList()
+        ll.append('4')
+        ll.append('3')
+        ll.append('2')
+        assert ll.items() == ['4', '3', '2']
+        ll.replace('3', '9')
+        assert ll.items() == ['4', '9', '2']
+        ll.replace('4', '5')
+        assert ll.items() == ['5', '9', '2']
+        ll.replace('2', '1')
+        assert ll.items() == ['5', '9', '1']
 
 if __name__ == '__main__':
     unittest.main()

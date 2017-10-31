@@ -129,6 +129,15 @@ class LinkedList(object):
 
         return None
 
+    def _find_node(self, data):
+        current = self.head
+
+        while current is not None:
+            if current.data == data:
+                return current
+
+            current = current.next
+
     def at_index(self, index):
         """ Gets data at an index
 
@@ -215,3 +224,11 @@ class LinkedList(object):
             current = current.next
 
         return data
+
+    def replace(self, old_data, new_data):
+        old_node = self._find_node(old_data)
+
+        if old_data is None:
+            return
+
+        old_node.data = new_data
