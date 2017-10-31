@@ -4,8 +4,15 @@
 import string
 
 
+# Hint: Use these string constants to ignore capitalization and/or punctuation
+# string.ascii_lowercase is 'abcdefghijklmnopqrstuvwxyz'
+# string.ascii_uppercase is 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+# string.ascii_letters is ascii_lowercase + ascii_uppercase
+
+
 def is_palindrome(text):
     """A string of characters is a palindrome if it reads the same forwards and
+<<<<<<< HEAD
     backwards, ignoring punctuation, whitespace, and letter casing"""
     # implement is_palindrome_iterative and is_palindrome_recursive below, then
     # change this to call your implementation to verify it passes all tests
@@ -20,7 +27,8 @@ IGNORE_CHARACTERS = [' ', ',', '.', '!', '?', '\'', '-']
 
 
 def is_palindrome_dumb(text):
-    text = text.lower().replace(' ', '').replace(',', '').replace('.', '').replace('!', '').replace('?', '',).replace('\'', '').replace('-', '')
+    text = text.lower().replace(' ', '').replace(',', '').replace('.', '').replace('!', '').replace('?', '', ).replace(
+        '\'', '').replace('-', '')
     return text == text[::-1]
 
 
@@ -86,6 +94,12 @@ def is_palindrome_recursive(text, left_index=0, right_index=None):
 
     # If our characters are not the same return false
     return False
+    """backwards, ignoring punctuation, whitespace, and letter casing."""
+    # implement is_palindrome_iterative and is_palindrome_recursive below, then
+    # change this to call your implementation to verify it passes all tests
+    assert isinstance(text, str), 'input is not a string: {}'.format(text)
+    return is_palindrome_iterative(text)
+    # return is_palindrome_recursive(text)
 
 
 def main():
