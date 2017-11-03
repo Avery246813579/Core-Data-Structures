@@ -132,6 +132,7 @@ def index_in_string_recursive(text, pattern, text_index=0, pattern_index=0):
         return -1
 
     # If our text character is our pattern character increase our pattern index
+    # Check if the current letters match, if so check more of the pattern
     if text[text_index] == pattern[pattern_index]:
         pattern_index += 1
     # If our text character is not our pattern character and our pattern_index is greater then 0 (we were checking) then
@@ -139,8 +140,11 @@ def index_in_string_recursive(text, pattern, text_index=0, pattern_index=0):
     elif pattern_index > 0:
         return index_in_string_recursive(text, pattern, text_index, 0)
 
-    # If our pattern index is greater then the len of the pattern then we have a match and we return our text index
+    # If our pattern index is greater then the len of the pattern
+    # then we have a match and we return our text index
     # minus our (pattern length - 1)
+    # Check if we've looked at the whole pattern
+    # If so, calculate the starting index of the match (walk back the len of pattern - 1)
     if pattern_index + 1 > len(pattern):
         return text_index - (len(pattern) - 1)
 
@@ -250,3 +254,28 @@ def index_in_string_used(text, pattern):
         return -1
 
     return indexes[0]
+
+
+if __name__ == '__main__':
+    N = int(input())
+
+    lst = []
+    for i in range(N):
+        command = input()
+        split = command.split()
+
+        if split[0] == "insert":
+            lst.insert(int(split[1]), int(split[2]))
+        elif split[0] == "remove":
+            lst.remove(int(split[1]))
+        elif split[0] == "print":
+            print(lst)
+        elif split[0] == "append":
+            lst.insert(0, int(split[1]))
+        elif split[0] == "split":
+            lst.sort()
+        elif split[0] == "pop":
+            del lst[len(lst) - 1]
+        elif split[0] == "reverse":
+            lst.reverse()
+

@@ -12,9 +12,9 @@
 |   1   |    Monday, October 23  | [Number Bases](Class1.md)                  |
 |   2   | Wednesday, October 25  | [Recursion & Search Algorithms](Class2.md) |
 |   3   |    Friday, October 27  | [String Algorithms](Class3.md)             |
-|   4   |    Monday, October 30  | Array & Linked List           |
-|   5   | Wednesday, November 1  | List, Stack & Queue           |
-|   6   |    Friday, November 3  | *TBD*                         |
+|   4   |    Monday, October 30  | [Arrays & Linked Lists](Class4.md)         |
+|   5   | Wednesday, November 1  | [Lists, Stacks & Queues](Class5.md)        |
+|   6   |    Friday, November 3  | [Call Routing Project](Class6.md)          |
 |   7   |    Monday, November 6  | Map & Hash Table              |
 |   8   | Wednesday, November 8  | Set & Circular Buffer         |
 |   9   |    Friday, November 10 | Trees                         |

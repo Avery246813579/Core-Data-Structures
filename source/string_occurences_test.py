@@ -11,6 +11,7 @@ class TestPalindromes(unittest.TestCase):
         assert in_string("abcdef", 'a') is True
         assert in_string("abcdef", 'f') is True
         assert in_string("abcdef", 'c') is True
+        assert in_string('aaaaaaab', 'aaaab') is True
 
     def test_in_string_not_in(self):
         assert in_string('abcdef', 'k') is False
