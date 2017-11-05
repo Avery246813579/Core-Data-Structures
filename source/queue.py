@@ -48,7 +48,12 @@ class LinkedQueue(object):
 
         data = self.list.head.data
 
-        self.list.head = self.list.head.next
+        if self.list.tail == self.list.head:
+            self.list.head = None
+            self.list.tail = None
+        else:
+            self.list.head = self.list.head.next
+
         return data
 
 
@@ -101,5 +106,5 @@ class ArrayQueue(object):
 
 # Implement LinkedQueue and ArrayQueue above, then change the assignment below
 # to use each of your Queue implementations to verify they each pass all tests
-# Queue = LinkedQueue
-Queue = ArrayQueue
+Queue = LinkedQueue
+# Queue = ArrayQueue
