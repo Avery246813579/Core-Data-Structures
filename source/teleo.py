@@ -1,42 +1,75 @@
 from collections import OrderedDict
 
-class Price:
-    def __init__(self, file):
-        file_reader = open(file)
 
+class Pricer:
+    def __init__(self, file_name):
+        file_reader = open(file_name)
+
+        # Get all the lines that
         lines = file_reader.read().splitlines()
+
+        file_reader.close()
 
         pricing = {}
         for line in lines:
             split = line.split(",")
 
+            # Set the number prefix with the cost inside our dictionary
             pricing[split[0]] = float(split[1])
 
-        self.pricing = OrderedDict(sorted(pricing.items()))
+        self.pricing = pricing
 
-def binary_search_recursive(array, item, left=0, right=None):
-    # If we don't have a right margin
-    if right is None:
-        right = len(array) - 1
+    def find_best_match(self, number):
+        best_match = None
 
-    # Our new index is our left margin plus the remaining width divided by 2 (we get the middle of the remaining
-    # elements)
-    index = (left + right) // 2
+        for price in self.pricing:
+            if number.startswith(price) and (best_match is None or len(price) > len(best_match)):
+                best_match = price
 
-    if left > right:
-        return None
+        if best_match is None:
+            return None
 
-    # If our current item is the item we are looking for return it back
-    if array[index] == item:
-        return index
-    # If our item is less then our current item then let's move the left margin
-    elif array[index] < item:
-        return binary_search_recursive(array, item, index + 1, right)
-    # If our item is more then our current item then let's move the right margin
-    else:
-        return binary_search_recursive(array, item, left, index - 1)
+        return self.pricing[best_match]
+
+    def find_best_matches(self, numbers):
+        final_dict = {}
+
+        for number in numbers:
+            final_dict[number] = self.find_best_match(number)
+
+        return final_dict
+
+
+class MultiPricer:
+    def __init__(self, file_names):
+        self.pricers = []
+
+        for name in file_names:
+            self.pricers.append(Pricer(name))
+
+    def find_best_price(self, number):
+        best_price = None
+
+        for price in self.pricers:
+            cost = price.find_best_match(number)
+
+            if best_price is None or cost < best_price:
+                best_price = cost
+
+        return best_price
+
+    def find_best_prices(self, numbers):
+        best_prices = {}
+
+        for number in numbers:
+            best_price = self.find_best_price(number)
+
+            best_prices[number] = best_price
+
+        return best_prices
 
 
 if __name__ == "__main__":
-    price = Price('../routes/route-costs-10.txt')
-    print((binary_search_recursive(price.pricing.keys(), '+14105547746')))
+    m_test = MultiPricer(['../routes/route-costs-10.txt', '../routes/route-costs-1000000.txt'])
+
+    print(m_test.find_best_prices(['+813023123', '+125313432']))
