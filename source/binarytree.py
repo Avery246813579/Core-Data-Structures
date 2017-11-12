@@ -101,7 +101,8 @@ class BinarySearchTree(object):
             # TODO: Create a new node and set the parent's right child
             parent.right = ...
         # TODO: Increase the tree size
-        self.size ...
+        self.size
+        pass
 
     def _find_node(self, item):
         """Return the node containing the given item in this binary search tree,
