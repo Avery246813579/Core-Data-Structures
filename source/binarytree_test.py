@@ -5,7 +5,6 @@ import unittest
 
 
 class BinaryTreeNodeTest(unittest.TestCase):
-
     def test_init(self):
         data = 123
         node = BinaryTreeNode(data)
@@ -49,7 +48,6 @@ class BinaryTreeNodeTest(unittest.TestCase):
 
 
 class BinarySearchTreeTest(unittest.TestCase):
-
     def test_init(self):
         tree = BinarySearchTree()
         assert tree.root is None
@@ -154,7 +152,21 @@ class BinarySearchTreeTest(unittest.TestCase):
         assert tree.root.right.left.data == 5
         assert tree.root.right.right.data == 7
 
-    # This space intentionally left blank (please do not delete this comment)
+    def test_delete(self):
+        items = [10, 5, 15, 3, 8, 7, 9]
+        tree = BinarySearchTree()
+        for item in items:
+            tree.insert(item)
+
+        tree.remove(10)
+
+        with self.assertRaises(ValueError):
+            tree.remove(10)
+
+        tree.remove(15)
+        assert tree.root.data == 5
+
+        # This space intentionally left blank (please do not delete this comment)
 
 
 if __name__ == '__main__':

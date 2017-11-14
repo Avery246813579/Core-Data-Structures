@@ -2,7 +2,6 @@
 
 
 class BinaryTreeNode(object):
-
     def __init__(self, data):
         """Initialize this binary tree node with the given data."""
         self.data = data
@@ -19,8 +18,10 @@ class BinaryTreeNode(object):
 
     def is_branch(self):
         """Return True if this node is a branch (has at least one child)."""
-        # TODO: Check if either left child or right child has a value
         return not self.is_leaf()
+
+    def is_full_branch(self):
+        return self.left is not None and self.right is not None
 
     def height(self):
         """Return the height of this node (the number of edges on the longest
@@ -28,22 +29,26 @@ class BinaryTreeNode(object):
         TODO: Best and worst case running time: ??? under what conditions?"""
 
         if self.is_leaf():
-            return 1
+            return 0
 
+        # If we have a left leave then set the height to that leafs height
         if self.left is not None:
-            height = self.left.height + 1
+            height = self.left.height()
 
+        # If we have a right leave
         if self.right is not None:
-            right_height = self.right.height
+            # Get that right leafs height
+            right_height = self.right.height()
 
+            # If we didn't have a left leave or the right leaf is greater then the height is now the right height
             if height is None or right_height > height:
                 height = right_height
 
-        return height
+        # Add one for fun (we need to increment for recursion)
+        return height + 1
 
 
 class BinarySearchTree(object):
-
     def __init__(self, items=None):
         """Initialize this binary search tree and insert the given items."""
         self.root = None
@@ -76,12 +81,59 @@ class BinarySearchTree(object):
     def remove(self, item):
         node = self._find_node(item)
 
+        # If we can't find the value then we cry
         if node is None:
-            return
+            raise ValueError
 
+        self.size -= 1
         parent = self._find_parent_node(item)
 
+        # If we have no children remove the bond with our family :'(
+        if node.is_leaf():
+            if parent.left == node:
+                parent.left = None
+            else:
+                parent.right = None
 
+            return
+
+        # If the node we want to find has both a right and left child then we find the successor and set our node's
+        # value to our successor. Our _find_successor already breaks our successor's bond with it's parent
+        if node.is_full_branch():
+            successor = self._find_successor(node)
+            node.data = successor.data
+
+            return
+
+        # If we get here then we have one child
+
+        # Get the node we want to swap
+        if node.left is not None:
+            next_node = node.left
+        else:
+            next_node = node.right
+
+        # If we have no parent our new place is the root
+        if parent is None:
+            self.root = next_node
+            return
+
+        # Set our new place to the place
+        if parent.left == node:
+            parent.left = next_node
+        else:
+            parent.right = next_node
+
+    def _find_successor(self, node):
+        # Keep going until we have no right and then do it
+        while node.right is not None:
+            temp = node.right
+
+            if temp.right is None:
+                node.right = None
+                return temp
+
+            node = temp
 
     def contains(self, item):
         """Return True if this binary search tree contains the given item.
@@ -163,7 +215,7 @@ class BinarySearchTree(object):
         # Not found
         return parent
 
-    # This space intentionally left blank (please do not delete this comment)
+        # This space intentionally left blank (please do not delete this comment)
 
 
 def test_binary_search_tree():
