@@ -1,5 +1,5 @@
 #!python
-
+from collections import deque
 
 class BinaryTreeNode(object):
     def __init__(self, data):
@@ -124,11 +124,13 @@ class BinarySearchTree(object):
         else:
             parent.right = next_node
 
-    def _find_successor(self, node):
-        # Keep going until we have no right and then do it
+    @staticmethod
+    def _find_successor(node):
+        # Keep going until we have no right
         while node.right is not None:
             temp = node.right
 
+            # If we no longer have a right remove it''s parents connection and return the successor
             if temp.right is None:
                 node.right = None
                 return temp
@@ -173,6 +175,24 @@ class BinarySearchTree(object):
             parent.right = BinaryTreeNode(item)
         self.size += 1
 
+    def _find_node_recursive(self, item, node=-1):
+        """Return the node containing the given item in this binary search tree,
+        or None if the given item is not found.
+        TODO: Best case running time: ??? under what conditions?
+        TODO: Worst case running time: ??? under what conditions?"""
+        if node == -1:
+            node = self.root
+
+        if node is None:
+            return None
+
+        if node.data == item:
+            return node
+        elif node.data > item:
+            return self._find_node_recursive(item, node.left)
+        else:
+            return self._find_node_recursive(item, node.right)
+
     def _find_node(self, item):
         """Return the node containing the given item in this binary search tree,
         or None if the given item is not found.
@@ -215,7 +235,146 @@ class BinarySearchTree(object):
         # Not found
         return parent
 
-        # This space intentionally left blank (please do not delete this comment)
+    def _find_parent_node_recursive(self, item, node=-1, parent=None):
+        """Return the parent node of the node containing the given item
+        (or the parent node of where the given item would be if inserted)
+        in this tree, or None if this tree is empty or has only a root node.
+        TODO: Best case running time: ??? under what conditions?
+        TODO: Worst case running time: ??? under what conditions?"""
+        if node == -1:
+            node = self.root
+
+        if node is None:
+            return None
+
+        if item == node.data:
+            return parent
+        elif item < node.data:
+            return self._find_parent_node_recursive(item, node.left, node)
+        else:
+            return self._find_parent_node_recursive(item, node.right, node)
+
+    def items_in_order(self):
+        """Return an in-order list of all items in this binary search tree."""
+        items = []
+        if not self.is_empty():
+            # Traverse tree in-order from root, appending each node's item
+            self._traverse_in_order_recursive(self.root, items.append)
+        # Return in-order list of all items in tree
+        return items
+
+    def _traverse_in_order_recursive(self, node, visit):
+        """Traverse this binary tree with recursive in-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: O(n) Going to all the nodes?
+        TODO: Memory usage: O(1) All the time?"""
+
+        # Traverse left subtree, if it exists
+        if node.left is not None:
+            self._traverse_in_order_recursive(node.left, visit)
+
+        # Visit this node's data with given function
+        visit(node.data)
+
+        # Traverse right subtree, if it exists
+        if node.right is not None:
+            self._traverse_in_order_recursive(node.right, visit)
+
+    def _traverse_in_order_iterative(self, node, visit):
+        """Traverse this binary tree with iterative in-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: ??? Why and under what conditions?
+        TODO: Memory usage: ??? Why and under what conditions?"""
+        # TODO: Traverse in-order without using recursion (stretch challenge)
+
+    def items_pre_order(self):
+        """Return a pre-order list of all items in this binary search tree."""
+        items = []
+        if not self.is_empty():
+            # Traverse tree pre-order from root, appending each node's item
+            self._traverse_pre_order_recursive(self.root, items.append)
+        # Return pre-order list of all items in tree
+        return items
+
+    def _traverse_pre_order_recursive(self, node, visit):
+        """Traverse this binary tree with recursive pre-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: O(n) Going to all the nodes?
+        TODO: Memory usage: O(1) All the time?"""
+        visit(node.data)
+
+        if node.left is not None:
+            self._traverse_pre_order_recursive(node.left, visit)
+
+        if node.right is not None:
+            self._traverse_pre_order_recursive(node.right, visit)
+
+    def _traverse_pre_order_iterative(self, node, visit):
+        """Traverse this binary tree with iterative pre-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: O(n) Going to all the nodes?
+        TODO: Memory usage: O(1) All the time?"""
+        # TODO: Traverse pre-order without using recursion (stretch challenge)
+
+    def items_post_order(self):
+        """Return a post-order list of all items in this binary search tree."""
+        items = []
+        if not self.is_empty():
+            # Traverse tree post-order from root, appending each node's item
+            self._traverse_post_order_recursive(self.root, items.append)
+        # Return post-order list of all items in tree
+        return items
+
+    def _traverse_post_order_recursive(self, node, visit):
+        """Traverse this binary tree with recursive post-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: O(n) Going to all the nodes?
+        TODO: Memory usage: O(1) All the time?"""
+        if node.left is not None:
+            self._traverse_post_order_recursive(node.left, visit)
+
+        if node.right is not None:
+            self._traverse_post_order_recursive(node.right, visit)
+
+        visit(node.data)
+
+    def _traverse_post_order_iterative(self, node, visit):
+        """Traverse this binary tree with iterative post-order traversal (DFS).
+        Start at the given node and visit each node with the given function.
+        TODO: Running time: O(n) Going to all the nodes?
+        TODO: Memory usage: O(1) All the time?"""
+        # TODO: Traverse post-order without using recursion (stretch challenge)
+
+    def items_level_order(self):
+        """Return a level-order list of all items in this binary search tree."""
+        items = []
+        if not self.is_empty():
+            # Traverse tree level-order from root, appending each node's item
+            self._traverse_level_order_iterative(self.root, items.append)
+        # Return level-order list of all items in tree
+        return items
+
+    def _traverse_level_order_iterative(self, start_node, visit):
+        """Traverse this binary tree with iterative level-order traversal (BFS).
+        Start at the given node and visit each node with the given function.
+
+        Running time: O(n) Going to all the nodes?
+        Memory usage: O(n) Adding all the nodes to a queue
+        """
+        # Create queue to store nodes not yet traversed in level-order
+        queue = deque([start_node])
+        # Loop until queue is empty
+        while len(queue) > 0:
+            # Dequeue node at front of queue
+            node = queue.popleft()
+            # Visit this node's data with given function
+            visit(node.data)
+            # Enqueue this node's left child, if it exists
+            if node.left is not None:
+                queue.append(node.left)
+            # Enqueue this node's right child, if it exists
+            if node.left is not None:
+                queue.append(node.right)
 
 
 def test_binary_search_tree():
@@ -242,6 +401,12 @@ def test_binary_search_tree():
     item = 123
     result = tree.search(item)
     print('search({}): {}'.format(item, result))
+
+    print('\nTraversing items:')
+    print('items in-order:    {}'.format(tree.items_in_order()))
+    print('items pre-order:   {}'.format(tree.items_pre_order()))
+    print('items post-order:  {}'.format(tree.items_post_order()))
+    print('items level-order: {}'.format(tree.items_level_order()))
 
 
 if __name__ == '__main__':
