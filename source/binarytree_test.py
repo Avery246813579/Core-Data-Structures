@@ -153,20 +153,72 @@ class BinarySearchTreeTest(unittest.TestCase):
         assert tree.root.right.right.data == 7
 
     def test_delete(self):
-        items = [10, 5, 15, 3, 8, 7, 9]
+        """
+             10
+           /    \
+          5     15
+         / \   /  \
+        3  8  14  20
+          / \
+         7   9
+        """
+        items = [10, 5, 15, 20, 14, 3, 8, 7, 9]
         tree = BinarySearchTree()
         for item in items:
             tree.insert(item)
 
+        # First Case: Node we want to remove has two children
         tree.remove(10)
+
+        """
+             20
+           /    \
+          5     15
+         / \   /  
+        3  8  14  
+          / \
+         7   9
+        """
+        assert tree.root.data == 20
 
         with self.assertRaises(ValueError):
             tree.remove(10)
 
-        tree.remove(15)
-        assert tree.root.data == 5
+        # Second Case: Node we want to remove has no children, we a leaf
+        tree.remove(3)
 
-        # This space intentionally left blank (please do not delete this comment)
+        """
+             20
+           /    \
+          5     15
+           \   /  
+           8  14  
+          / \
+         7   9
+        """
+
+        with self.assertRaises(ValueError):
+            tree.remove(3)
+
+        # Third: Node we want to remove has one child
+        tree.remove(5)
+
+        """
+             20
+           /    \
+          8      15
+         / \    /  
+        7   9  14  
+        """
+
+        print(tree.items_in_order())
+        tree.remove(14)
+        tree.remove(15)
+        tree.remove(20)
+
+        assert tree.root.data == 8
+
+        assert tree.root.left.data == 8
 
     def test_items_in_order_with_3_strings(self):
         # Create a complete binary search tree of 3 strings in level-order
@@ -215,7 +267,6 @@ class BinarySearchTreeTest(unittest.TestCase):
         items = [4, 2, 6, 1, 3, 5, 7]
         tree = BinarySearchTree(items)
         # Ensure the post-order traversal of tree items is ordered correctly
-        print(tree.items_post_order())
         assert tree.items_post_order() == [1, 3, 2, 5, 7, 6, 4]
 
     def test_items_level_order_with_7_numbers(self):

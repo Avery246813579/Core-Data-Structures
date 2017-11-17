@@ -79,14 +79,25 @@ class BinarySearchTree(object):
         return self.root.height
 
     def remove(self, item):
-        node = self._find_node(item)
+        """ Removes an item or returns a ValueError
 
-        # If we can't find the value then we cry
+        Time:
+            Average: O(n)
+        Space:
+            Average: O(n)
+
+
+        """
+
+        # Let's get our node and parent
+        node, parent = self._find_node_with_parent(item)
+
+        # If we can't find the value then we cry THEN throw a ValueError
         if node is None:
             raise ValueError
 
+        # It exists so we decrement the size
         self.size -= 1
-        parent = self._find_parent_node(item)
 
         # If we have no children remove the bond with our family :'(
         if node.is_leaf():
@@ -95,47 +106,45 @@ class BinarySearchTree(object):
             else:
                 parent.right = None
 
-            return
-
-        # If the node we want to find has both a right and left child then we find the successor and set our node's
-        # value to our successor. Our _find_successor already breaks our successor's bond with it's parent
-        if node.is_full_branch():
+        # We have two children <3. We need to find our successor and he is now our nodes data. We break our successor's
+        # bond in the _find_successor method
+        elif node.is_full_branch():
             successor = self._find_successor(node)
             node.data = successor.data
 
-            return
-
-        # If we get here then we have one child
-
-        # Get the node we want to swap
-        if node.left is not None:
+        # We have one child!
+        else:
+            # Get the node we want to swap
             next_node = node.left
-        else:
-            next_node = node.right
+            if next_node is None:
+                next_node = node.right
 
-        # If we have no parent our new place is the root
-        if parent is None:
-            self.root = next_node
-            return
+            # If we have no parent our new home is the root
+            if parent is None:
+                self.root = next_node
+                return
 
-        # Set our new place to the place
-        if parent.left == node:
-            parent.left = next_node
-        else:
-            parent.right = next_node
+            # We move the next_node up
+            if parent.left == node:
+                parent.left = next_node
+            else:
+                parent.right = next_node
 
     @staticmethod
-    def _find_successor(node):
-        # Keep going until we have no right
-        while node.right is not None:
-            temp = node.right
+    def _find_successor(node, current):
+        """ Finds the successor of a node. The farthest right node :)
 
-            # If we no longer have a right remove it''s parents connection and return the successor
-            if temp.right is None:
-                node.right = None
-                return temp
+        Time:
+            Best: O(1)
+            Worst: O(n)
 
-            node = temp
+        Space:
+            Average: O(1)
+        """
+
+        if node.left.data < current.data:
+
+
 
     def contains(self, item):
         """Return True if this binary search tree contains the given item.
@@ -234,6 +243,26 @@ class BinarySearchTree(object):
                 node = node.right
         # Not found
         return parent
+
+    def _find_node_with_parent(self, item):
+        """ Returns a parent and child """
+
+        # Start with the root node and keep track of its parent
+        node = self.root
+        parent = None
+        # Loop until we descend past the closest leaf node
+        while node is not None:
+            if item == node.data:
+                # Return the parent of the found node
+                return node, parent
+            elif item < node.data:
+                parent = node
+                node = node.left
+            elif item > node.data:
+                parent = node
+                node = node.right
+        # Not found
+        return None, parent
 
     def _find_parent_node_recursive(self, item, node=-1, parent=None):
         """Return the parent node of the node containing the given item
