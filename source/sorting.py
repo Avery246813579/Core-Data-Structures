@@ -174,16 +174,17 @@ def merge_sort(items):
 
     # Check if list is so small it's already sorted (base case)
     if len(items) < 2:
-        return items
+        return
+
+    # I like my coffee with half and half
+    half = len(items) // 2
 
     # Split items list into approximately equal halves
-    half = len(items) // 2
     left_half = items[:half]
-    merge_sort(left_half)
-
     right_half = items[half:]
 
     # Sort each half by recursively calling merge sort
+    merge_sort(left_half)
     merge_sort(right_half)
 
     # Merge sorted halves into one list in sorted order
