@@ -94,51 +94,52 @@ def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
 
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?
+    TODO: Running time: O(n)
+    TODO: Memory usage: O(n)
     """
 
     # Create a new list
-    new_list = []
+    new_list = [0] * (len(items1) + len(items2))
 
     # We merged it
     merge_helper(items1, items2, new_list)
 
     return new_list
 
+
 def merge_helper(items1, items2, new_list):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
 
-    TODO: Running time: O(n)
-    TODO: Memory usage: O(n)?
+    Running time: O(n)
+    Memory usage: O(1)
     """
 
     left_pivot = 0
     right_pivot = 0
-
-    # Clear initial list
-    new_list.clear()
+    index = 0
 
     # Go until we need it to stop
     while True:
         # If the left array is empty
         if left_pivot >= len(items1):
-            new_list.extend(items2[right_pivot:])
+            new_list[index:] = items2[right_pivot:]
             break
 
         # If the right array is empty
         if right_pivot >= len(items2):
-            new_list.extend(items1[left_pivot:])
+            new_list[index:] = items1[left_pivot:]
             break
 
         # If the left item is greater add the right item and move it's index
         if items1[left_pivot] > items2[right_pivot]:
-            new_list.append(items2[right_pivot])
+            new_list[index] = items2[right_pivot]
             right_pivot += 1
         else:  # The right item is greater add the left item and move it's index
-            new_list.append(items1[left_pivot])
+            new_list[index] = items1[left_pivot]
             left_pivot += 1
+
+        index += 1
 
 
 def split_sort_merge(items):
@@ -147,8 +148,9 @@ def split_sort_merge(items):
     a list in sorted order.
 
     TODO: Running time: O(n^2)
-    TODO: Memory usage: O(n^2)
+    TODO: Memory usage: O(n)
     """
+    # Buy my mix tape
     half = len(items) // 2
 
     # Split items list into approximately equal halves
@@ -167,7 +169,7 @@ def merge_sort(items):
     sorting each recursively, and merging results into a list in sorted order.
 
     TODO: Running time: O(n log n)
-    TODO: Memory usage: O(n)
+    TODO: Memory usage: O(n log n)????
     """
 
     # Check if list is so small it's already sorted (base case)
@@ -177,10 +179,11 @@ def merge_sort(items):
     # Split items list into approximately equal halves
     half = len(items) // 2
     left_half = items[:half]
+    merge_sort(left_half)
+
     right_half = items[half:]
 
     # Sort each half by recursively calling merge sort
-    merge_sort(left_half)
     merge_sort(right_half)
 
     # Merge sorted halves into one list in sorted order
