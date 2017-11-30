@@ -3,71 +3,188 @@
 
 def is_sorted(items):
     """Return a boolean indicating whether given items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check that all adjacent items are in order, return early if not
+    Time: O(n)
+    """
+    # Check that all adjacent items are in order, return early if not
+    for i in range(1, len(items)):
+        last_item = items[i - 1]
+        current_item = items[i]
+
+        if current_item < last_item:
+            return False
+
+    return True
 
 
 def bubble_sort(items):
     """Sort given items by swapping adjacent items that are out of order, and
     repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Swap adjacent items that are out of order
+    Time:
+        Best: O(n)
+        Worst: O(n^2)
+    """
+    max_index = len(items)
+
+    # Repeat until all items are in sorted order
+    while not is_sorted(items):
+
+        # Swap adjacent items that are out of order
+        for i in range(1, max_index):
+            last_item = items[i - 1]
+            current_item = items[i]
+
+            if last_item > current_item:
+                items[i - 1] = current_item
+                items[i] = last_item
+
+        max_index -= 1
+
 
 
 def selection_sort(items):
     """Sort given items by finding minimum item, swapping it with first
     unsorted item, and repeating until all items are in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Find minimum item in unsorted items
-    # TODO: Swap it with first unsorted item
+    Time:
+        Best: O(n long n)
+        Worst: O(n^2)
+    """
+    left_window = 0
+
+    # Repeat until all items are in sorted order
+    while not is_sorted(items):
+        minimum = items[left_window]
+        minimum_index = left_window
+
+        # Find minimum item in unsorted items
+        for i in range(left_window + 1, len(items)):
+            if minimum > items[i]:
+                minimum = items[i]
+                minimum_index = i
+
+        # Swap it with first unsorted item
+        items[minimum_index] = items[left_window]
+        items[left_window] = minimum
+
+        left_window += 1
+
 
 
 def insertion_sort(items):
     """Sort given items by taking first unsorted item, inserting it in sorted
-    order in front of items, and repeating until all items are in order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until all items are in sorted order
-    # TODO: Take first unsorted item
-    # TODO: Insert it in sorted order in front of items
+    order in front of items, and repeating until all items are in order."""
 
+    pivot = 0
+    # Repeat until all items are in sorted order
+    while not is_sorted(items):
+        # Take first unsorted item
+        for i in range(pivot, 0, -1):
+            item = items[i]
+            next_item = items[i - 1]
+
+            if next_item < item:
+                break
+
+            # Insert it in sorted order in front of items
+            items[i] = next_item
+            items[i - 1] = item
+
+        pivot += 1
 
 def merge(items1, items2):
     """Merge given lists of items, each assumed to already be in sorted order,
     and return a new list containing all items in sorted order.
+
     TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Repeat until one list is empty
-    # TODO: Find minimum item in both lists and append it to new list
-    # TODO: Append remaining items in non-empty list to new list
+    TODO: Memory usage: ??? Why and under what conditions?
+    """
+
+    # Create a new list
+    new_list = []
+
+    # We merged it
+    merge_helper(items1, items2, new_list)
+
+    return new_list
+
+def merge_helper(items1, items2, new_list):
+    """Merge given lists of items, each assumed to already be in sorted order,
+    and return a new list containing all items in sorted order.
+
+    TODO: Running time: O(n)
+    TODO: Memory usage: O(n)?
+    """
+
+    left_pivot = 0
+    right_pivot = 0
+
+    # Clear initial list
+    new_list.clear()
+
+    # Go until we need it to stop
+    while True:
+        # If the left array is empty
+        if left_pivot >= len(items1):
+            new_list.extend(items2[right_pivot:])
+            break
+
+        # If the right array is empty
+        if right_pivot >= len(items2):
+            new_list.extend(items1[left_pivot:])
+            break
+
+        # If the left item is greater add the right item and move it's index
+        if items1[left_pivot] > items2[right_pivot]:
+            new_list.append(items2[right_pivot])
+            right_pivot += 1
+        else:  # The right item is greater add the left item and move it's index
+            new_list.append(items1[left_pivot])
+            left_pivot += 1
 
 
 def split_sort_merge(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each with an iterative sorting algorithm, and merging results into
     a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half using any other sorting algorithm
-    # TODO: Merge sorted halves into one list in sorted order
 
+    TODO: Running time: O(n^2)
+    TODO: Memory usage: O(n^2)
+    """
+    half = len(items) // 2
+
+    # Split items list into approximately equal halves
+    left_half = items[:half]
+    right_half = items[half:]
+
+    # Sort each half using any other sorting algorithm
+    selection_sort(left_half)
+    selection_sort(right_half)
+
+    # Merge sorted halves into one list in sorted order
+    return merge(left_half, right_half)
 
 def merge_sort(items):
     """Sort given items by splitting list into two approximately equal halves,
     sorting each recursively, and merging results into a list in sorted order.
-    TODO: Running time: ??? Why and under what conditions?
-    TODO: Memory usage: ??? Why and under what conditions?"""
-    # TODO: Check if list is so small it's already sorted (base case)
-    # TODO: Split items list into approximately equal halves
-    # TODO: Sort each half by recursively calling merge sort
-    # TODO: Merge sorted halves into one list in sorted order
 
+    TODO: Running time: O(n log n)
+    TODO: Memory usage: O(n)
+    """
+
+    # Check if list is so small it's already sorted (base case)
+    if len(items) < 2:
+        return items
+
+    # Split items list into approximately equal halves
+    half = len(items) // 2
+    left_half = items[:half]
+    right_half = items[half:]
+
+    # Sort each half by recursively calling merge sort
+    merge_sort(left_half)
+    merge_sort(right_half)
+
+    # Merge sorted halves into one list in sorted order
+    merge_helper(left_half, right_half, items)
 
 def random_ints(count=20, min=1, max=50):
     """Return a list of `count` integers sampled uniformly at random from
@@ -136,4 +253,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    ...
